@@ -1,64 +1,76 @@
-# The [MineRL](http://minerl.io) Python Package
+<h1 align="center">
+minerl-combat
+</h1>
+<p align="center">
+This is a fork of <a href="https://github.com/minerllabs/minerl">minerl v1.0.0</a> with additional gym environments for player versus mob combat scenarios. Although combat is our focus, this package provides an interface for setting up environments via a list of minecraft chat commands; this can potentially be extended for many other scenarios.
+</p>
 
-[![Documentation Status](https://readthedocs.org/projects/minerl/badge/?version=latest)](https://minerl.readthedocs.io/en/latest/?badge=latest)
-[![Downloads](https://pepy.tech/badge/minerl)](https://pepy.tech/project/minerl)
-[![PyPI version](https://badge.fury.io/py/minerl.svg)](https://badge.fury.io/py/minerl)
-[!["Open Issues"](https://img.shields.io/github/issues-raw/minerllabs/minerl.svg)](https://github.com/minerllabs/minerl/issues)
-[![GitHub issues by-label](https://img.shields.io/github/issues/minerllabs/minerl/bug.svg?color=red)](https://github.com/minerllabs/minerl/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+label%3Abug)
-[![Discord](https://img.shields.io/discord/565639094860775436.svg?label=&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2)](https://discord.gg/BT9uegr)
+## Requirements
 
-Python package providing easy to use Gym environments and data access for training agents in Minecraft.
+These are not set in stone and you may be able to get this to work with different versions, but these are safe options that should work 🤞
 
-**To [get started please read the docs here](http://minerl.io/docs/)!**
-
-## MineRL Versions
-
-MineRL consists of three unique versions, each with a slightly different sets of features. See full comparison [here](https://minerl.readthedocs.io/en/v1.0.0/notes/versions.html).
-
-* v1.0: [[Code](https://github.com/minerllabs/minerl)][[Docs](https://minerl.readthedocs.io/en/latest/)]
-  This version you are looking at. Needed for the [OpenAI VPT](https://github.com/openai/Video-Pre-Training) models and the [MineRL BASALT 2022](https://www.aicrowd.com/challenges/neurips-2022-minerl-basalt-competition) competition.
-* v0.4: [[Code](https://github.com/minerllabs/minerl/tree/v0.4)][[Docs](https://minerl.readthedocs.io/en/v0.4.4/)]
-  Version used in the 2021 competitions (Diamond and BASALT). Supports the original [MineRL-v0 dataset](https://arxiv.org/abs/1907.13440). Install with `pip install minerl==0.4`
-* v0.3: [[Code](https://github.com/minerllabs/minerl/tree/pypi_0.3.7)][[Docs](https://minerl.readthedocs.io/en/v0.3.7/)]
-  Version used prior to 2021, including the first two MineRL competitions (2019 and 2020). Supports the original [MineRL-v0 dataset](https://arxiv.org/abs/1907.13440). Install with `pip install minerl==0.3`
+- Linux (sorry Caleb) (Mac silicon tutorial coming soon)
+- Java 8 ([Oracle recommended](https://www.oracle.com/java/technologies/javase/javase8-archive-downloads.html))
+- Python 3.9.16 (conda recommended)
 
 ## Installation
 
-Install [requirements](https://minerl.readthedocs.io/en/latest/tutorials/index.html) (Java JDK 8 is **required**) and then install MineRL with
-```
-pip install git+https://github.com/minerllabs/minerl
+Remove any existing minerl installation
+
+```sh
+pip uninstall minerl -y
 ```
 
-## Basic Usage
+Clone this repository
 
-Can be used much like any Gym environment:
+```sh
+git clone https://github.com/jhsul/minerl-combat
+cd minerl-combat
+```
+
+Install with pip (this may take awhile)
+
+```sh
+pip install -r requirements.txt
+pip install .
+```
+
+## Example Usage
+
+This is a super basic example with no RL or even any real model. It just shows how you can set up the environment and control the agent. VPT integration coming soon.
 
 ```python
+# tests/example.py
+import logging
 import gym
 import minerl
+import coloredlogs
 
-# Uncomment to see more logs of the MineRL launch
-# import coloredlogs
-# coloredlogs.install(logging.DEBUG)
+coloredlogs.install(logging.DEBUG)
 
-env = gym.make("MineRLBasaltBuildVillageHouse-v0")
-obs = env.reset()
+env = gym.make("MineRLPunchCow-v0")
+env.reset()
+
+ac = env.action_space.noop()
+
+# look down 10 degrees to aim at the cow
+ac["camera"] = [10., 0]
+
+env.step(ac)
 
 done = False
+
+i = 0
 while not done:
     ac = env.action_space.noop()
-    # Spin around to see what is around us
-    ac["camera"] = [0, 3]
+
+    # Alternate so we don't hold down the button
+    ac["attack"] = i % 2
     obs, reward, done, info = env.step(ac)
+
     env.render()
+    i += 1
+
 env.close()
+
 ```
-
-Check the [documentation](https://minerl.readthedocs.io/en/latest) for further examples and notes.
-
-## Major changes in v1.0
-
-- New Minecraft version (11.2 -> 16.5)
-- Larger resolution by default (64x64 -> 640x360)
-- Near-human action-space: no more `craft` and `smelt` actions. Only GUI and mouse control (camera action moves mouse around).
-- Observation space is only pixels, no more inventory observation by default.

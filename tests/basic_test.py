@@ -1,27 +1,42 @@
 import logging
 import gym
-from minerl.herobraine.env_specs.human_survival_specs import HumanSurvival
+
+import matplotlib.pyplot as plt
+import minerl
 
 import coloredlogs
 coloredlogs.install(logging.DEBUG)
 
-def test_turn(resolution):
-    #env = HumanSurvival(resolution=resolution).make()
-    #env = gym.make("MineRLBasaltBuildVillageHouse-v0")
-    env = gym.make("MineRLObtainDiamondShovel-v0")
-    #env = gym.make("MineRLBasaltFindCave-v0")
-    env.reset()
-    _, _, _, info = env.step(env.action_space.noop())
-    N = 100
-    for i in range(N):
-        ac = env.action_space.noop()
-        ac['camera'] = [0.0, 360 / N]
-        _, _, _, info = env.step(ac)
-        env.render()
-    env.close()
 
-if __name__ == '__main__':
-    test_turn((640, 360))
+env = gym.make("MineRLPunchCow-v0")
+env.reset()
+
+# ac = env.action_space.noop()
+# # # ac["chat"] = "/give @p diamond 3"
+# # ac["chat"] = "/summon minecraft:cow ^ ^ ^2"
+# ac["camera"] = [10, 0.]  # look down a little bit to hit the cow
+# env.step(ac)
+
+damage_dealt = []
+done = False
+
+i = 0
+
+while not done:
+    ac = env.action_space.noop()
+    i += 1
+    ac["attack"] = i % 2  # punch instead of holding down the button
+    # ac['camera'] = [0., 0.]
+    obs, reward, done, info = env.step(ac)
+
+    damage_dealt.append(obs["damage_dealt"]["damage_dealt"])
+
+    env.render()
+env.close()
 
 
-
+# print(damage_dealt)
+# print(damage_dealt[0])
+plt.title("Damage Dealt over Time")
+plt.plot(damage_dealt)
+plt.show()

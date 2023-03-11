@@ -261,18 +261,20 @@ minerl/MCP-Reborn/src/main/resources/*
 
 #Run files
 # runclient
-minerl/MCP-Reborn/*
-minerl/MCP-Reborn/world/*
-minerl/MCP-Reborn/crash-reports/*
-minerl/MCP-Reborn/recordings/*
-minerl/MCP-Reborn/saves/*
-minerl/MCP-Reborn/logs/*
-minerl/MCP-Reborn/.classpath
-minerl/MCP-Reborn/.settings
-minerl/MCP-Reborn/.project
-minerl/MCP-Reborn/projects
-minerl/MCP-Reborn/bin
-minerl/MCP-Reborn/src/main/java/com/microsoft/Malmo/Schemas
+minerl/MCP-Reborn/
+minerl/MCP-Reborn-Mac/
+
+# minerl/MCP-Reborn/world/*
+# minerl/MCP-Reborn/crash-reports/*
+# minerl/MCP-Reborn/recordings/*
+# minerl/MCP-Reborn/saves/*
+# minerl/MCP-Reborn/logs/*
+# minerl/MCP-Reborn/.classpath
+# minerl/MCP-Reborn/.settings
+# minerl/MCP-Reborn/.project
+# minerl/MCP-Reborn/projects
+# minerl/MCP-Reborn/bin
+# minerl/MCP-Reborn/src/main/java/com/microsoft/Malmo/Schemas
 
 
 # Ignore Gradle GUI config
