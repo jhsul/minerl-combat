@@ -36,7 +36,7 @@ class TimeoutWrapper(gym.Wrapper):
 class InitCommandsWrapper(gym.Wrapper):
     """
     This wrapper injects minecraft chat commands into env.reset()
-    It uses the init_cmds field of FightMobBaseEnvSpec
+    It uses the init_cmds field of CombatBaseEnvSpec
     """
 
     def __init__(self, env, env_spec):
@@ -59,8 +59,8 @@ class InitCommandsWrapper(gym.Wrapper):
         return obs
 
 
-def _fight_mob_gym_entrypoint(
-        env_spec: "FightMobBaseEnvSpec",
+def _combat_gym_entrypoint(
+        env_spec: "CombatBaseEnvSpec",
         fake: bool = False,
 ) -> _singleagent._SingleAgentEnv:
     """Used as entrypoint for `gym.make`."""
@@ -74,10 +74,10 @@ def _fight_mob_gym_entrypoint(
     return env
 
 
-FIGHT_MOB_GYM_ENTRY_POINT = "minerl.herobraine.env_specs.fight_mob_specs:_fight_mob_gym_entrypoint"
+COMBAT_GYM_ENTRY_POINT = "minerl.herobraine.env_specs.combat_specs:_combat_gym_entrypoint"
 
 
-class FightMobBaseEnvSpec(HumanControlEnvSpec):
+class CombatBaseEnvSpec(HumanControlEnvSpec):
 
     LOW_RES_SIZE = 64
     HIGH_RES_SIZE = 1024
@@ -119,7 +119,7 @@ class FightMobBaseEnvSpec(HumanControlEnvSpec):
     def _entry_point(self, fake: bool) -> str:
         # Don't need to inspect `fake` argument here because it is also passed to the
         # entrypoint function.
-        return FIGHT_MOB_GYM_ENTRY_POINT
+        return COMBAT_GYM_ENTRY_POINT
 
     def create_observables(self):
         return [  # The POV in pixels
@@ -216,7 +216,7 @@ SECOND = 20
 MINUTE = SECOND * 60
 
 
-class PunchCowEnvSpec(FightMobBaseEnvSpec):
+class PunchCowEnvSpec(CombatBaseEnvSpec):
     """
 You spawn in a random world with a cow in front of you. You have 10 seconds to beat the shit out of the cow
 """
@@ -237,7 +237,7 @@ You spawn in a random world with a cow in front of you. You have 10 seconds to b
         )
 
 
-class FightSkeletonEnvSpec(FightMobBaseEnvSpec):
+class FightSkeletonEnvSpec(CombatBaseEnvSpec):
     """
 Fight the skeleton for 10 seconds!
 """
@@ -260,7 +260,7 @@ Fight the skeleton for 10 seconds!
         )
 
 
-class EnderdragonEnvSpec(FightMobBaseEnvSpec):
+class EnderdragonEnvSpec(CombatBaseEnvSpec):
     """
 You spawn in the end. Kill the enderdragon and beat the game!
 """
