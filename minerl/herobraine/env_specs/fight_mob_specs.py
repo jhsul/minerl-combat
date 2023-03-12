@@ -73,12 +73,14 @@ class InitCommandsWrapper(gym.Wrapper):
         self.env.step(ac)
 
     def reset(self):
-        super().reset()
+        obs = super().reset()
         print("Injecting minecraft chat commands into env.reset()!")
 
         for cmd in self.env_spec.init_cmds():
             print(f"Running command: {cmd}")
             self.run_command(cmd)
+
+        return obs
 
 
 def _fight_mob_gym_entrypoint(
@@ -92,7 +94,7 @@ def _fight_mob_gym_entrypoint(
         env = _singleagent._SingleAgentEnv(env_spec=env_spec)
 
     env = TimeoutWrapper(env)
-    env = DoneOnESCWrapper(env)
+    # env = DoneOnESCWrapper(env)
     env = InitCommandsWrapper(env, env_spec)
     return env
 
