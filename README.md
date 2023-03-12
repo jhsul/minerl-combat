@@ -43,7 +43,7 @@ So far, this fork introduces the following environments:
 - `MineRLFightSkeleton-v0`
 - `MineRLEnderdragon-v0`
 
-## Usage
+## Basic Usage
 
 ```python
 # tests/example.py
@@ -69,3 +69,7 @@ while not done:
 
 env.close()
 ```
+
+## Usage with VPT
+
+To see this in action with VPT, please refer to our other repository. This repo does not exist yet so it's not linked here. It will probably exist in like a day or two, and ill replace this text then. if you see this, hi!
