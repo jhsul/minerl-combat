@@ -33,30 +33,6 @@ class TimeoutWrapper(gym.Wrapper):
         return observation, reward, done, info
 
 
-class DoneOnESCWrapper(gym.Wrapper):
-    """
-    Use the "ESC" action of the MineRL 1.0.0 to end
-    an episode (if 1, step will return done=True)
-    """
-
-    def __init__(self, env):
-        super().__init__(env)
-        self.episode_over = False
-
-    def reset(self):
-        self.episode_over = False
-        return self.env.reset()
-
-    def step(self, action):
-        if self.episode_over:
-            raise RuntimeError(
-                "Expected `reset` after episode terminated, not `step`.")
-        observation, reward, done, info = self.env.step(action)
-        done = done or bool(action["ESC"])
-        self.episode_over = done
-        return observation, reward, done, info
-
-
 class InitCommandsWrapper(gym.Wrapper):
     """
     This wrapper injects minecraft chat commands into env.reset()
@@ -94,7 +70,6 @@ def _fight_mob_gym_entrypoint(
         env = _singleagent._SingleAgentEnv(env_spec=env_spec)
 
     env = TimeoutWrapper(env)
-    # env = DoneOnESCWrapper(env)
     env = InitCommandsWrapper(env, env_spec)
     return env
 
@@ -147,10 +122,16 @@ class FightMobBaseEnvSpec(HumanControlEnvSpec):
         return FIGHT_MOB_GYM_ENTRY_POINT
 
     def create_observables(self):
-        # Only POV
-        return [handlers.POVObservation(self.resolution),
-                handlers.ObserveFromFullStats("damage_dealt"),
-                handlers.ObservationFromLifeStats()]
+        return [  # The POV in pixels
+            handlers.POVObservation(self.resolution),
+            # https://minecraft.fandom.com/wiki/Statistics#List_of_custom_statistic_names
+
+            handlers.ObserveFromFullStats("damage_dealt"),
+            handlers.ObserveFromFullStats("damage_taken"),
+            handlers.ObserveFromFullStats("mob_kills"),
+
+            # idk what this is
+            handlers.ObservationFromLifeStats()]
 
     def create_agent_start(self) -> List[handlers.Handler]:
         return super().create_agent_start() + [
@@ -253,4 +234,58 @@ You spawn in a random world with a cow in front of you. You have 10 seconds to b
             demo_server_experiment_name="punchcow",
             max_episode_steps=10*SECOND,
             inventory=[],
+        )
+
+
+class FightSkeletonEnvSpec(FightMobBaseEnvSpec):
+    """
+Fight the skeleton for 10 seconds!
+"""
+
+    @staticmethod
+    def init_cmds():
+        return [
+            "/summon skeleton ^ ^ ^2",
+            "/replaceitem entity @p weapon.offhand shield"
+        ]
+
+    def __init__(self):
+        super().__init__(
+            name="MineRLFightSkeleton-v0",
+            demo_server_experiment_name="fightskeleton",
+            max_episode_steps=10*SECOND,
+            inventory=[
+                dict(type="diamond_sword", quantity=1),
+            ],
+        )
+
+
+class EnderdragonEnvSpec(FightMobBaseEnvSpec):
+    """
+You spawn in the end. Kill the enderdragon and beat the game!
+"""
+
+    @staticmethod
+    def init_cmds():
+        return [
+            # This will send homie to the end
+            "/setblock ~ ~ ~ minecraft:end_portal"
+        ]
+
+    def __init__(self):
+        super().__init__(
+            name="MineRLEnderdragon-v0",
+            demo_server_experiment_name="enderdragon",
+            max_episode_steps=5*MINUTE,
+            inventory=[
+                dict(type="diamond_sword", quantity=1),
+                dict(type="bow", quantity=1),
+                dict(type="arrow", quantity=64),
+                dict(type="diamond_helmet", quantity=1),
+                dict(type="diamond_chestplate", quantity=1),
+                dict(type="diamond_leggings", quantity=1),
+                dict(type="diamond_boots", quantity=1),
+                dict(type="cobblestone", quantity=64),
+                dict(type="steak", quantity=64),
+            ],
         )

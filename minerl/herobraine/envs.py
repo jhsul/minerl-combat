@@ -35,6 +35,8 @@ MINERL_BASALT_PEN_ANIMALS_VILLAGE_ENV_SPEC = basalt_specs.PenAnimalsVillageEnvSp
 MINERL_BASALT_VILLAGE_HOUSE_ENV_SPEC = basalt_specs.VillageMakeHouseEnvSpec()
 
 MINERL_PUNCH_COW_ENV_SPEC = fight_mob_specs.PunchCowEnvSpec()
+MINERL_FIGHT_SKELETON_ENV_SPEC = fight_mob_specs.FightSkeletonEnvSpec()
+MINERL_ENDERDRAGON_ENV_SPEC = fight_mob_specs.EnderdragonEnvSpec()
 
 # Register the envs.
 ENVS = [env for env in locals().values() if isinstance(env, EnvSpec)]
