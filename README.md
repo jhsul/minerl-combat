@@ -72,4 +72,4 @@ env.close()
 
 ## Usage with VPT
 
-To see this in action with VPT, please refer to our other repository. This repo does not exist yet so it's not linked here. It will probably exist in like a day or two, and ill replace this text then. if you see this, hi!
+To see this in action with VPT, please refer to our other repository, [BattleCraftRL](https://github.com/jhsul/battle-craft-rl).
