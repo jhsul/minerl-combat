@@ -23,6 +23,7 @@ class TimeoutWrapper(gym.Wrapper):
 
     def reset(self):
         self.timeout = self.env.task.max_episode_steps
+        self.num_steps = 0  # THIS WAS WHY THE ENV COULDN'T RESET!
         return super().reset()
 
     def step(self, action):
@@ -46,15 +47,16 @@ class InitCommandsWrapper(gym.Wrapper):
     def run_command(self, cmd: str):
         ac = self.env.action_space.noop()
         ac["chat"] = cmd
-        self.env.step(ac)
+        obs, reward, done, info = self.env.step(ac)
+        return obs
 
     def reset(self):
         obs = super().reset()
-        print("Injecting minecraft chat commands into env.reset()!")
+        # print("Injecting minecraft chat commands into env.reset()!")
 
         for cmd in self.env_spec.init_cmds():
-            print(f"Running command: {cmd}")
-            self.run_command(cmd)
+            # print(f"Running command: {cmd}")
+            obs = self.run_command(cmd)
 
         return obs
 
@@ -218,12 +220,16 @@ MINUTE = SECOND * 60
 
 class PunchCowEnvSpec(CombatBaseEnvSpec):
     """
-You spawn in a random world with a cow in front of you. You have 10 seconds to beat the shit out of the cow
+You spawn in a random world with a cow in front of you. You have 10 seconds to beat the crap out of the cow
 """
 
     @staticmethod
     def init_cmds():
         return [
+            # No distractions!
+            "/kill @e[type=!player]",
+            # Clear a platform
+            "/setblock ^ ^1 ^2 air",
             # Spawn a cow 2 blocks in front of the player
             "/summon cow ^ ^ ^2"
         ]
@@ -245,6 +251,8 @@ Fight the skeleton for 10 seconds!
     @staticmethod
     def init_cmds():
         return [
+            "/time set midnight",
+            "/kill @e[type=!player]",
             "/summon skeleton ^ ^ ^2",
             "/replaceitem entity @p weapon.offhand shield"
         ]

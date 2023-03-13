@@ -37,6 +37,5 @@ env.close()
 
 # print(damage_dealt)
 # print(damage_dealt[0])
-plt.title("Damage Dealt over Time")
 plt.plot(damage_dealt)
 plt.show()
