@@ -61,8 +61,8 @@ env.reset()
 done = False
 
 while not done:
-    # just go nuts
-    ac = env.action_space.sample()
+    # do nothing
+    ac = env.action_space.noop()
     obs, reward, done, info = env.step(ac)
 
     env.render()
@@ -72,4 +72,4 @@ env.close()
 
 ## Usage with VPT
 
-To see this in action with VPT, please refer to our other repository, [BattleCraftRL](https://github.com/jhsul/battle-craft-rl).
+To see this in action with VPT, please install `minerl-combat` as per the instructions and check out our other repository, [BattleCraftRL](https://github.com/jhsul/battle-craft-rl).

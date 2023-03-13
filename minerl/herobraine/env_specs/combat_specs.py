@@ -229,7 +229,10 @@ You spawn in a random world with a cow in front of you. You have 10 seconds to b
             # No distractions!
             "/kill @e[type=!player]",
             # Clear a platform
+            "/setblock ^ ^ ^2 air",
             "/setblock ^ ^1 ^2 air",
+            "/setblock ^ ^ ^1 air",
+            "/setblock ^ ^1 ^1 air",
             # Spawn a cow 2 blocks in front of the player
             "/summon cow ^ ^ ^2"
         ]
