@@ -11,8 +11,8 @@ env.reset()
 done = False
 
 while not done:
-    # just go nuts
-    ac = env.action_space.sample()
+    # dont do anything
+    ac = env.action_space.noop()
     obs, reward, done, info = env.step(ac)
 
     env.render()
