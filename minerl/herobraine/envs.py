@@ -17,17 +17,20 @@ import os
 
 # Must load non-obfuscated envs first!
 # Publish.py depends on this order for black-listing streams
-MINERL_TREECHOP_V0 = Treechop()
 
-MINERL_NAVIGATE_V0 = Navigate(dense=False, extreme=False)
-MINERL_NAVIGATE_EXTREME_V0 = Navigate(dense=False, extreme=True)
-MINERL_NAVIGATE_DENSE_V0 = Navigate(dense=True, extreme=False)
-MINERL_NAVIGATE_DENSE_EXTREME_V0 = Navigate(dense=True, extreme=True)
+# For older versions of minerl:
 
-MINERL_OBTAIN_DIAMOND_SHOVEL_V0 = ObtainDiamondShovelEnvSpec()
+# MINERL_TREECHOP_V0 = Treechop()
 
-MINERL_EQUIP_WEAPON_V0 = EquipWeapon()
-MINERL_HUMAN_SURVIVAL_V0 = HumanSurvival()
+# MINERL_NAVIGATE_V0 = Navigate(dense=False, extreme=False)
+# MINERL_NAVIGATE_EXTREME_V0 = Navigate(dense=False, extreme=True)
+# MINERL_NAVIGATE_DENSE_V0 = Navigate(dense=True, extreme=False)
+# MINERL_NAVIGATE_DENSE_EXTREME_V0 = Navigate(dense=True, extreme=True)
+
+# MINERL_OBTAIN_DIAMOND_SHOVEL_V0 = ObtainDiamondShovelEnvSpec()
+
+# MINERL_EQUIP_WEAPON_V0 = EquipWeapon()
+# MINERL_HUMAN_SURVIVAL_V0 = HumanSurvival()
 
 MINERL_BASALT_FIND_CAVES_ENV_SPEC = basalt_specs.FindCaveEnvSpec()
 MINERL_BASALT_MAKE_WATERFALL_ENV_SPEC = basalt_specs.MakeWaterfallEnvSpec()
@@ -35,6 +38,7 @@ MINERL_BASALT_PEN_ANIMALS_VILLAGE_ENV_SPEC = basalt_specs.PenAnimalsVillageEnvSp
 MINERL_BASALT_VILLAGE_HOUSE_ENV_SPEC = basalt_specs.VillageMakeHouseEnvSpec()
 
 MINERL_PUNCH_COW_ENV_SPEC = combat_specs.PunchCowEnvSpec()
+MINERL_PUNCH_COW_EZ_ENV_SPEC = combat_specs.PunchCowEzEnvSpec()
 MINERL_FIGHT_SKELETON_ENV_SPEC = combat_specs.FightSkeletonEnvSpec()
 MINERL_ENDERDRAGON_ENV_SPEC = combat_specs.EnderdragonEnvSpec()
 

@@ -105,7 +105,8 @@ class CombatBaseEnvSpec(HumanControlEnvSpec):
 
         super().__init__(
             name=name,
-            max_episode_steps=max_episode_steps,
+            # This way, the setup actions are not counted as part of the episode.
+            max_episode_steps=max_episode_steps + len(self.init_cmds()),
             # Hardcoded variables to match the pretrained models
             fov_range=[70, 70],
             resolution=[640, 360],
@@ -216,6 +217,34 @@ class CombatBaseEnvSpec(HumanControlEnvSpec):
 
 SECOND = 20
 MINUTE = SECOND * 60
+
+
+class PunchCowEzEnvSpec(CombatBaseEnvSpec):
+    """
+This is just the easy-mode cow punch environment. Same rules apply, except the cow has no AI and won't run away.
+"""
+
+    @staticmethod
+    def init_cmds():
+        return [
+            # No distractions!
+            "/kill @e[type=!player]",
+            # Clear a platform
+            "/setblock ^ ^ ^2 air",
+            "/setblock ^ ^1 ^2 air",
+            "/setblock ^ ^ ^1 air",
+            "/setblock ^ ^1 ^1 air",
+            # Spawn a cow 2 blocks in front of the player
+            "/summon cow ^ ^ ^2 {NoAI:1}"
+        ]
+
+    def __init__(self):
+        super().__init__(
+            name="MineRLPunchCowEz-v0",
+            demo_server_experiment_name="punchcowez",
+            max_episode_steps=10*SECOND,
+            inventory=[],
+        )
 
 
 class PunchCowEnvSpec(CombatBaseEnvSpec):
