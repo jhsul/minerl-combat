@@ -40,6 +40,7 @@ MINERL_BASALT_VILLAGE_HOUSE_ENV_SPEC = basalt_specs.VillageMakeHouseEnvSpec()
 MINERL_PUNCH_COW_ENV_SPEC = combat_specs.PunchCowEnvSpec()
 MINERL_PUNCH_COW_EZ_ENV_SPEC = combat_specs.PunchCowEzEnvSpec()
 MINERL_FIGHT_SKELETON_ENV_SPEC = combat_specs.FightSkeletonEnvSpec()
+MINERL_FIGHT_ZOMBIE_ENV_SPEC = combat_specs.FightZombieEnvSpec()
 MINERL_ENDERDRAGON_ENV_SPEC = combat_specs.EnderdragonEnvSpec()
 
 # Register the envs.
