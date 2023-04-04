@@ -299,6 +299,37 @@ Fight the skeleton for 10 seconds!
             ],
         )
 
+class FightZombieEnvSpec(CombatBaseEnvSpec):
+    """
+Fight the zombie for 10 seconds!
+"""
+
+    @staticmethod
+    def init_cmds():
+        return [
+            "/time set midnight",
+            "/kill @e[type=!player]",
+            "/difficuly peaceful", # assume no other mobs spawn
+            # Clear a platform
+            "/setblock ^ ^ ^2 air",
+            "/setblock ^ ^1 ^2 air",
+            "/setblock ^ ^ ^1 air",
+            "/setblock ^ ^1 ^1 air",
+            # Spawn the zombie and turn it to face the player
+            "/summon zombie ^ ^ ^2 {IsBaby:0}",
+            "/execute as @e[type=zombie] at @s run tp @s ~ ~ ~ 180 0 true",
+        ]
+
+    def __init__(self):
+        super().__init__(
+            name="MineRLFightZombie-v0",
+            demo_server_experiment_name="fightzombie",
+            max_episode_steps=10*SECOND,
+            inventory=[
+                dict(type="diamond_sword", quantity=1),
+            ],
+        )
+
 
 class EnderdragonEnvSpec(CombatBaseEnvSpec):
     """

@@ -42,6 +42,7 @@ So far, this fork introduces the following environments:
 - `MineRLPunchCow-v0`
 - `MineRLPunchCowEz-v0`
 - `MineRLFightSkeleton-v0`
+- `MineRLFightZombie-v0`
 - `MineRLEnderdragon-v0`
 
 ## Basic Usage
