@@ -5,7 +5,7 @@ import coloredlogs
 
 coloredlogs.install(logging.DEBUG)
 
-env = gym.make("MineRLPunchCow-v0")
+env = gym.make("MineRLFightZombie-v0")
 env.reset()
 
 done = False

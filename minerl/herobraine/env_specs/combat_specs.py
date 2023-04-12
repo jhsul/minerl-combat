@@ -34,6 +34,56 @@ class TimeoutWrapper(gym.Wrapper):
         return observation, reward, done, info
 
 
+class EndOnKillWrapper(gym.Wrapper):
+    """
+    This wrapper ends the episode when the agent kills a mob
+    """
+
+    def __init__(self, env):
+        super().__init__(env)
+
+    def step(self, action):
+        obs, reward, done, info = super().step(action)
+        if obs["mob_kills"]["mob_kills"] > 0:
+            done = True
+        return obs, reward, done, info
+
+
+class CalculateRewardsWrapper(gym.Wrapper):
+    """
+    This wrapper does the reward calculation for the combat environments
+    """
+
+    def __init__(self, env):
+        super().__init__(env)
+        self.stats = {
+            "damage_dealt": [2, 0],
+            "damage_taken": [-1, 0],
+            "mob_kills": [100, 0]
+        }
+        self.time_punishment = -1
+
+    def reset(self):
+        for stat in self.stats:
+            self.stats[stat][1] = 0
+        return super().reset()
+
+    def step(self, action):
+        obs, reward, done, info = super().step(action)
+
+        rewards = []
+        for k, v in self.stats.items():
+            curr = obs[k][k]
+            if curr > v[1]:
+                rewards.append(v[0]*(curr - v[1]))
+                v[1] = curr
+                print(f"{k} reward: {rewards[-1]}")
+
+        reward = sum(rewards) + self.time_punishment
+
+        return obs, reward, done, info
+
+
 class InitCommandsWrapper(gym.Wrapper):
     """
     This wrapper injects minecraft chat commands into env.reset()
@@ -73,6 +123,8 @@ def _combat_gym_entrypoint(
 
     env = TimeoutWrapper(env)
     env = InitCommandsWrapper(env, env_spec)
+    env = EndOnKillWrapper(env)
+    env = CalculateRewardsWrapper(env)
     return env
 
 
@@ -299,6 +351,7 @@ Fight the skeleton for 10 seconds!
             ],
         )
 
+
 class FightZombieEnvSpec(CombatBaseEnvSpec):
     """
 Fight the zombie for 10 seconds!
@@ -309,7 +362,7 @@ Fight the zombie for 10 seconds!
         return [
             "/time set midnight",
             "/kill @e[type=!player]",
-            "/difficuly peaceful", # assume no other mobs spawn
+            # "/difficuly peaceful",  # assume no other mobs spawn
             # Clear a platform
             "/setblock ^ ^ ^2 air",
             "/setblock ^ ^1 ^2 air",
@@ -317,7 +370,8 @@ Fight the zombie for 10 seconds!
             "/setblock ^ ^1 ^1 air",
             # Spawn the zombie and turn it to face the player
             "/summon zombie ^ ^ ^2 {IsBaby:0}",
-            "/execute as @e[type=zombie] at @s run tp @s ~ ~ ~ 180 0 true",
+            # "/execute as @e[type=zombie] at @s run tp @s ~ ~ ~ 180 0 true",
+            "/tp @e[type=zombie, dx=5, dy=5, dz=5] ^ ^ 2 facing ^ ^ ^"
         ]
 
     def __init__(self):
