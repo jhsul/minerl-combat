@@ -77,7 +77,7 @@ class CalculateRewardsWrapper(gym.Wrapper):
             if curr > v[1]:
                 rewards.append(v[0]*(curr - v[1]))
                 v[1] = curr
-                print(f"{k} reward: {rewards[-1]}")
+                # print(f"{k} reward: {rewards[-1]}")
 
         reward = sum(rewards) + self.time_punishment
 
