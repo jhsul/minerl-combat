@@ -123,7 +123,7 @@ def _combat_gym_entrypoint(
 
     env = TimeoutWrapper(env)
     env = InitCommandsWrapper(env, env_spec)
-    env = EndOnKillWrapper(env)
+    # env = EndOnKillWrapper(env)
     env = CalculateRewardsWrapper(env)
     return env
 
@@ -287,13 +287,41 @@ This is just the easy-mode cow punch environment. Same rules apply, except the c
             "/setblock ^ ^ ^1 air",
             "/setblock ^ ^1 ^1 air",
             # Spawn a cow 2 blocks in front of the player
-            "/summon cow ^ ^ ^2 {NoAI:1}"
+            "/summon cow ^ ^ ^2 {NoAI:1,Health:10000}"
         ]
 
     def __init__(self):
         super().__init__(
             name="MineRLPunchCowEz-v0",
             demo_server_experiment_name="punchcowez",
+            max_episode_steps=10*SECOND,
+            inventory=[],
+        )
+
+
+class PunchCowEzTestEnvSpec(CombatBaseEnvSpec):
+    """
+Same as PunchCowEz, except the cow can actually die
+"""
+
+    @staticmethod
+    def init_cmds():
+        return [
+            # No distractions!
+            "/kill @e[type=!player]",
+            # Clear a platform
+            "/setblock ^ ^ ^2 air",
+            "/setblock ^ ^1 ^2 air",
+            "/setblock ^ ^ ^1 air",
+            "/setblock ^ ^1 ^1 air",
+            # Spawn a cow 2 blocks in front of the player
+            "/summon cow ^ ^ ^2 {NoAI:1}"
+        ]
+
+    def __init__(self):
+        super().__init__(
+            name="MineRLPunchCowEzTest-v0",
+            demo_server_experiment_name="punchcoweztest",
             max_episode_steps=10*SECOND,
             inventory=[],
         )
