@@ -123,7 +123,7 @@ def _combat_gym_entrypoint(
 
     env = TimeoutWrapper(env)
     env = InitCommandsWrapper(env, env_spec)
-    # env = EndOnKillWrapper(env)
+    env = EndOnKillWrapper(env)
     env = CalculateRewardsWrapper(env)
     return env
 
