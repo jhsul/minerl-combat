@@ -397,9 +397,9 @@ Fight the zombie for 10 seconds!
             "/setblock ^ ^ ^1 air",
             "/setblock ^ ^1 ^1 air",
             # Spawn the zombie and turn it to face the player
-            "/summon zombie ^ ^ ^2 {IsBaby:0}",
+            "/summon zombie ^ ^ ^2 {IsBaby:0,Rotation:[180.0f,0.0f]}",
             # "/execute as @e[type=zombie] at @s run tp @s ~ ~ ~ 180 0 true",
-            "/tp @e[type=zombie, dx=5, dy=5, dz=5] ^ ^ 2 facing ^ ^ ^"
+            # "/tp @e[type=zombie, dx=5, dy=5, dz=5] ^ ^ 2 facing ^ ^ ^"
         ]
 
     def __init__(self):
