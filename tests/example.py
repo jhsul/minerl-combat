@@ -3,18 +3,13 @@ import gym
 import minerl
 import coloredlogs
 
-coloredlogs.install(logging.DEBUG)
+# coloredlogs.install(logging.DEBUG)
 
-env = gym.make("MineRLFightZombie-v0")
-env.reset()
-
-done = False
-
-while not done:
-    # dont do anything
-    ac = env.action_space.noop()
-    obs, reward, done, info = env.step(ac)
-
-    env.render()
-
-env.close()
+env = gym.make("MineRLFightSkeleton-v0")
+while True:
+    env.reset()
+    done = False
+    while not done:
+        action = env.action_space.noop()
+        obs, reward, done, info = env.step(action)
+        env.render()

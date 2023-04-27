@@ -9,9 +9,9 @@ This is a fork of <a href="https://github.com/minerllabs/minerl">minerl v1.0.0</
 
 These are not set in stone and you may be able to get this to work with different versions, but these are safe options that should work 🤞
 
-- Linux (sorry Caleb) (Mac silicon tutorial coming soon)
+- Linux
 - Java 8 ([Oracle recommended](https://www.oracle.com/java/technologies/javase/javase8-archive-downloads.html))
-- Python 3.9.16 (conda recommended)
+- Python 3.9.16
 
 ## Installation
 
@@ -37,7 +37,7 @@ pip install .
 
 ## Environments
 
-So far, this fork introduces the following environments:
+This fork introduces the following environments:
 
 - `MineRLPunchCow-v0`
 - `MineRLPunchCowEz-v0`
@@ -48,8 +48,6 @@ So far, this fork introduces the following environments:
 ## Basic Usage
 
 ```python
-# tests/example.py
-
 import logging
 import gym
 import minerl

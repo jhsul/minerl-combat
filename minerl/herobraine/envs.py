@@ -27,10 +27,10 @@ import os
 # MINERL_NAVIGATE_DENSE_V0 = Navigate(dense=True, extreme=False)
 # MINERL_NAVIGATE_DENSE_EXTREME_V0 = Navigate(dense=True, extreme=True)
 
-# MINERL_OBTAIN_DIAMOND_SHOVEL_V0 = ObtainDiamondShovelEnvSpec()
+MINERL_OBTAIN_DIAMOND_SHOVEL_V0 = ObtainDiamondShovelEnvSpec()
 
-# MINERL_EQUIP_WEAPON_V0 = EquipWeapon()
-# MINERL_HUMAN_SURVIVAL_V0 = HumanSurvival()
+MINERL_EQUIP_WEAPON_V0 = EquipWeapon()
+MINERL_HUMAN_SURVIVAL_V0 = HumanSurvival()
 
 MINERL_BASALT_FIND_CAVES_ENV_SPEC = basalt_specs.FindCaveEnvSpec()
 MINERL_BASALT_MAKE_WATERFALL_ENV_SPEC = basalt_specs.MakeWaterfallEnvSpec()

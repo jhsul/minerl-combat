@@ -365,7 +365,12 @@ Fight the skeleton for 10 seconds!
         return [
             "/time set midnight",
             "/kill @e[type=!player]",
-            "/summon skeleton ^ ^ ^2",
+            "/setblock ^ ^ ^2 air",
+            "/setblock ^ ^1 ^2 air",
+            "/setblock ^ ^ ^1 air",
+            "/setblock ^ ^1 ^1 air",
+            # Spawn the zombie and turn it to face the player
+            "/summon skeleton ^ ^ ^2 {Rotation:[180.0f,0.0f],HandItems:[{Count:1,id:bow}]}",
             "/replaceitem entity @p weapon.offhand shield"
         ]
 

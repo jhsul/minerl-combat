@@ -44,8 +44,10 @@ MAKE_HOUSE_VILLAGE_INVENTORY = [
     dict(type="lantern", quantity=64),
 ]
 
+
 class BasaltTimeoutWrapper(gym.Wrapper):
     """Timeout wrapper specifically crafted for the BASALT environments"""
+
     def __init__(self, env):
         super().__init__(env)
         self.timeout = self.env.task.max_episode_steps
@@ -68,17 +70,19 @@ class DoneOnESCWrapper(gym.Wrapper):
     Use the "ESC" action of the MineRL 1.0.0 to end
     an episode (if 1, step will return done=True)
     """
+
     def __init__(self, env):
         super().__init__(env)
         self.episode_over = False
-    
+
     def reset(self):
         self.episode_over = False
         return self.env.reset()
 
     def step(self, action):
         if self.episode_over:
-            raise RuntimeError("Expected `reset` after episode terminated, not `step`.")
+            raise RuntimeError(
+                "Expected `reset` after episode terminated, not `step`.")
         observation, reward, done, info = self.env.step(action)
         done = done or bool(action["ESC"])
         self.episode_over = done
@@ -96,7 +100,7 @@ def _basalt_gym_entrypoint(
         env = _singleagent._SingleAgentEnv(env_spec=env_spec)
 
     env = BasaltTimeoutWrapper(env)
-    env = DoneOnESCWrapper(env)
+    # env = DoneOnESCWrapper(env)
     return env
 
 
@@ -116,7 +120,8 @@ class BasaltBaseEnvSpec(HumanControlEnvSpec):
             inventory: Sequence[dict] = (),
             preferred_spawn_biome: str = "plains"
     ):
-        self.inventory = inventory  # Used by minerl.util.docs to construct Sphinx docs.
+        # Used by minerl.util.docs to construct Sphinx docs.
+        self.inventory = inventory
         self.preferred_spawn_biome = preferred_spawn_biome
         self.demo_server_experiment_name = demo_server_experiment_name
         super().__init__(
@@ -381,6 +386,7 @@ Finally, end the episode by setting the "ESC" action to 1.
   village (plains, savannah, taiga, desert) here:
   https://minecraft.fandom.com/wiki/Village/Structure/Blueprints
 """
+
     def __init__(self):
         super().__init__(
             name="MineRLBasaltBuildVillageHouse-v0",
