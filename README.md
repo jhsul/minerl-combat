@@ -2,6 +2,11 @@
 minerl-combat
 </h1>
 <p align="center">
+<img src="assets/punchcow2.gif" width="200"/>
+<img src="assets/fightzombie.gif" width="200">
+<img src="assets/fightskeleton.gif" width="200"s>
+</p>
+<p align="center">
 This is a fork of <a href="https://github.com/minerllabs/minerl">minerl v1.0.0</a> with additional gym environments for player versus mob combat scenarios. Although combat is our focus, this package provides an interface for setting up environments via a list of minecraft chat commands; this can potentially be extended for many other scenarios.
 </p>
 
@@ -40,7 +45,8 @@ pip install .
 This fork introduces the following environments:
 
 - `MineRLPunchCow-v0`
-- `MineRLPunchCowEz-v0`
+- `MineRLPunchCowEz-v0` (cow cannot die)
+- `MineRLPunchCowEzTest-v0` (cow can die)
 - `MineRLFightSkeleton-v0`
 - `MineRLFightZombie-v0`
 - `MineRLEnderdragon-v0`
